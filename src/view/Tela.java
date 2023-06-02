@@ -5,32 +5,20 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
-
 import controller.AlunosController;
 import controller.GruposController;
-import model.Aluno;
-
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.JSeparator;
-import javax.swing.JScrollBar;
 
 public class Tela extends JFrame {
 
@@ -111,78 +99,6 @@ public class Tela extends JFrame {
 		btnCadastrar.setBounds(218, 186, 102, 23);
 		tabAluno.add(btnCadastrar);
 		
-		// TELA CADASTRO GRUPOS
-		JPanel tabGrupo = new JPanel();
-		tabbedPane.addTab("Cadastrar Grupos", null, tabGrupo, null);
-		tabGrupo.setLayout(null);
-		
-		JLabel lblCod = new JLabel("Código");
-		lblCod.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblCod.setBounds(27, 11, 46, 14);
-		tabGrupo.add(lblCod);
-		
-		JLabel lblArea = new JLabel("Área do trabalho");
-		lblArea.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblArea.setBounds(244, 41, 115, 14);
-		tabGrupo.add(lblArea);
-		
-		JLabel lblTema = new JLabel("Tema");
-		lblTema.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblTema.setBounds(27, 36, 46, 14);
-		tabGrupo.add(lblTema);
-		
-		JLabel lblOrientador = new JLabel("Orientador");
-		lblOrientador.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblOrientador.setBounds(277, 11, 66, 14);
-		tabGrupo.add(lblOrientador);
-		
-		JComboBox cbOrientador = new JComboBox();
-		cbOrientador.setBounds(367, 8, 129, 22);
-		tabGrupo.add(cbOrientador);
-		
-		JComboBox cbArea = new JComboBox();
-		cbArea.setBounds(367, 38, 129, 22);
-		tabGrupo.add(cbArea);
-		
-		tfTema = new JTextField();
-		tfTema.setBounds(80, 36, 138, 20);
-		tabGrupo.add(tfTema);
-		tfTema.setColumns(10);
-		
-		tfCodGrupo = new JTextField();
-		tfCodGrupo.setBounds(80, 9, 72, 20);
-		tabGrupo.add(tfCodGrupo);
-		tfCodGrupo.setColumns(10);
-		
-		tbAlunos = new JTable();
-		tbAlunos.setBounds(290, 119, 206, 88);
-		tabGrupo.add(tbAlunos);
-		
-		JButton btnExcluir = new JButton("Excluir");
-		btnExcluir.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnExcluir.setBounds(102, 216, 89, 23);
-		tabGrupo.add(btnExcluir);
-		
-		JButton btnCadastrarGrupo = new JButton("Cadastrar");
-		btnCadastrarGrupo.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnCadastrarGrupo.setBounds(263, 218, 115, 23);
-		tabGrupo.add(btnCadastrarGrupo);
-		
-		JLabel lblAlunoRA = new JLabel("RA Aluno");
-		lblAlunoRA.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblAlunoRA.setBounds(10, 118, 102, 14);
-		tabGrupo.add(lblAlunoRA);
-		
-		tfRaAluno = new JTextField();
-		tfRaAluno.setBounds(80, 116, 86, 20);
-		tabGrupo.add(tfRaAluno);
-		tfRaAluno.setColumns(10);
-		
-		JButton btnAdicionarAluno = new JButton("Adicionar");
-		btnAdicionarAluno.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnAdicionarAluno.setBounds(176, 114, 104, 23);
-		tabGrupo.add(btnAdicionarAluno);
-		
 		// TELA CONSULTA GRUPO
 		JPanel tabConsutaGrupo = new JPanel();
 		tabbedPane.addTab("Consultar Grupo", null, tabConsutaGrupo, null);
@@ -258,6 +174,92 @@ public class Tela extends JFrame {
 		separator_1.setBounds(10, 50, 476, 1);
 		tabOrientacao.add(separator_1);
 		
+		// TELA CADASTRO GRUPOS
+		JPanel tabGrupo = new JPanel();
+		tabbedPane.addTab("Cadastrar Grupos", null, tabGrupo, null);
+		tabGrupo.setLayout(null);
+		
+		JLabel lblCod = new JLabel("Código");
+		lblCod.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblCod.setBounds(27, 11, 46, 14);
+		tabGrupo.add(lblCod);
+		
+		JLabel lblArea = new JLabel("Área do trabalho");
+		lblArea.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblArea.setBounds(244, 41, 115, 14);
+		tabGrupo.add(lblArea);
+		
+		JLabel lblTema = new JLabel("Tema");
+		lblTema.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblTema.setBounds(27, 36, 46, 14);
+		tabGrupo.add(lblTema);
+		
+		JLabel lblOrientador = new JLabel("Orientador");
+		lblOrientador.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblOrientador.setBounds(277, 11, 66, 14);
+		tabGrupo.add(lblOrientador);
+		
+		JComboBox cbOrientador = new JComboBox();
+		cbOrientador.setModel(new DefaultComboBoxModel(new String[] {"Colevati", "Cristina", "Welingtton", "Satoshi", "Luciano"}));
+		cbOrientador.setBounds(367, 8, 129, 22);
+		tabGrupo.add(cbOrientador);
+		
+		JComboBox cbArea = new JComboBox();
+		cbArea.setModel(new DefaultComboBoxModel(new String[] {"Engenharia", "Redes", "Desenvolvimento", "Dados", "Segurança"}));
+		cbArea.setBounds(367, 38, 129, 22);
+		tabGrupo.add(cbArea);
+		
+		JComboBox cbSubArea = new JComboBox();
+		cbSubArea.setModel(new DefaultComboBoxModel(new String[] {"Engenharia de Software", "Engenharia de Sistemas", "Segurança de Redes", "Administração de Redes", "Desenvolvimento Web\r\n"
+				+ "Desenvolvimento Mobile", "Análise de Dados" , "Criptografia", "Segurança de Aplicações Web"}));
+		cbSubArea.setBounds(367, 64, 129, 22);
+		tabGrupo.add(cbSubArea);
+		
+		tfTema = new JTextField();
+		tfTema.setBounds(80, 36, 138, 20);
+		tabGrupo.add(tfTema);
+		tfTema.setColumns(10);
+		
+		tfCodGrupo = new JTextField();
+		tfCodGrupo.setBounds(80, 9, 72, 20);
+		tabGrupo.add(tfCodGrupo);
+		tfCodGrupo.setColumns(10);
+		
+		tbAlunos = new JTable();
+		tbAlunos.setBounds(290, 119, 206, 88);
+		tabGrupo.add(tbAlunos);
+		
+		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnExcluir.setBounds(102, 216, 89, 23);
+		tabGrupo.add(btnExcluir);
+		
+		JButton btnCadastrarGrupo = new JButton("Cadastrar");
+		btnCadastrarGrupo.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnCadastrarGrupo.setBounds(263, 218, 115, 23);
+		tabGrupo.add(btnCadastrarGrupo);
+		
+		JLabel lblAlunoRA = new JLabel("RA Aluno");
+		lblAlunoRA.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblAlunoRA.setBounds(10, 118, 102, 14);
+		tabGrupo.add(lblAlunoRA);
+		
+		tfRaAluno = new JTextField();
+		tfRaAluno.setBounds(80, 116, 86, 20);
+		tabGrupo.add(tfRaAluno);
+		tfRaAluno.setColumns(10);
+		
+		JButton btnAdicionarAluno = new JButton("Adicionar");
+		btnAdicionarAluno.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnAdicionarAluno.setBounds(176, 114, 104, 23);
+		tabGrupo.add(btnAdicionarAluno);
+		GruposController grupo = new GruposController(tfAluno, tfAluno, tfAluno, tbAlunos, comboBox, comboBox);
+		
+		JLabel lblSubArea = new JLabel("Subarea");
+		lblSubArea.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblSubArea.setBounds(298, 67, 80, 14);
+		tabGrupo.add(lblSubArea);
+			
 		//TELA CONSULTA ORIENTAÇÃO
 		JPanel tabConsultarOrientacao = new JPanel();
 		tabbedPane.addTab("Consultar Orientação", null, tabConsultarOrientacao, null);
@@ -302,7 +304,6 @@ public class Tela extends JFrame {
 	
 		
 		AlunosController aluno = new AlunosController(tfAluno, tfRA);
-		GruposController grupo = new GruposController();
 		
 		//BOTOES DA TELA DE CADASTRO DE ALUNO
 		btnCadastrar.addActionListener(aluno);
