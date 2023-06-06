@@ -9,8 +9,13 @@ import controller.AlunosController;
 import controller.GruposController;
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -27,7 +32,6 @@ public class Tela extends JFrame {
 	private JTextField tfRA;
 	private JTextField tfTema;
 	private JTextField tfCodGrupo;
-	private JTable tbAlunos;
 	private JTextField tfRaAluno;
 	private JTextField tfCodigo;
 	private JTable tbConsultaGrupo;
@@ -225,35 +229,25 @@ public class Tela extends JFrame {
 		tabGrupo.add(tfCodGrupo);
 		tfCodGrupo.setColumns(10);
 		
-		tbAlunos = new JTable();
-		tbAlunos.setBounds(290, 119, 206, 88);
-		tabGrupo.add(tbAlunos);
-		
-		JButton btnExcluir = new JButton("Excluir");
-		btnExcluir.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnExcluir.setBounds(102, 216, 89, 23);
-		tabGrupo.add(btnExcluir);
-		
 		JButton btnCadastrarGrupo = new JButton("Cadastrar");
 		btnCadastrarGrupo.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnCadastrarGrupo.setBounds(263, 218, 115, 23);
+		btnCadastrarGrupo.setBounds(169, 219, 115, 23);
 		tabGrupo.add(btnCadastrarGrupo);
 		
 		JLabel lblAlunoRA = new JLabel("RA Aluno");
 		lblAlunoRA.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblAlunoRA.setBounds(10, 118, 102, 14);
+		lblAlunoRA.setBounds(63, 146, 102, 14);
 		tabGrupo.add(lblAlunoRA);
 		
 		tfRaAluno = new JTextField();
-		tfRaAluno.setBounds(80, 116, 86, 20);
+		tfRaAluno.setBounds(130, 144, 154, 20);
 		tabGrupo.add(tfRaAluno);
 		tfRaAluno.setColumns(10);
 		
 		JButton btnAdicionarAluno = new JButton("Adicionar");
 		btnAdicionarAluno.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnAdicionarAluno.setBounds(176, 114, 104, 23);
+		btnAdicionarAluno.setBounds(298, 142, 104, 23);
 		tabGrupo.add(btnAdicionarAluno);
-		GruposController grupo = new GruposController(tfAluno, tfAluno, tfAluno, tbAlunos, comboBox, comboBox);
 		
 		JLabel lblSubArea = new JLabel("Subarea");
 		lblSubArea.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -306,21 +300,60 @@ public class Tela extends JFrame {
 		AlunosController aluno = new AlunosController(tfAluno, tfRA);
 		
 		//BOTOES DA TELA DE CADASTRO DE ALUNO
+		
 		btnCadastrar.addActionListener(aluno);
 		
-//		//BOTOES DA TELA DE CADASTRO DO GRUPO
-//		btnCadastrarGrupo.addActionListener();
-//		btnExcluir.addActionListener();
-//		btnAdicionarAluno.addActionListener();
-//		
+		
+		//BOTOES DA TELA DE CADASTRO DO GRUPO
+
+		btnCadastrarGrupo.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		    	List<String> listaAlunos = new ArrayList<>();
+		        // Obter os valores dos campos de entrada
+		        String codigo = tfCodGrupo.getText();
+		        String tema = tfTema.getText();
+		        String orientador = cbOrientador.getSelectedItem().toString();
+		        String area = cbArea.getSelectedItem().toString();
+		        String subArea = cbSubArea.getSelectedItem().toString();
+
+		        // Montar uma string com os dados do grupo no formato CSV
+		        String dadosGrupo = codigo + "," + tema + "," + orientador + "," + area + "," + subArea;
+
+		        // Adicionar os alunos à string de dados do grupo
+		        for (String aluno : listaAlunos) {
+		            dadosGrupo += "," + aluno;
+		        }
+
+		        // Chamar o método para escrever os dados no arquivo CSV
+		        GruposController.escreverCSV(dadosGrupo, "grupos.csv");
+
+		        // Limpar os campos de entrada e a lista de alunos após salvar os dados
+		        tfCodGrupo.setText("");
+		        tfTema.setText("");
+		        listaAlunos.clear();
+		    }
+		});
+		
+		btnAdicionarAluno.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        // Obter o RA do aluno digitado no campo de entrada
+		        String raAluno = tfRaAluno.getText();
+
+		        // Executar a lógica para adicionar o aluno à tabela
+		        GruposController.adicionarAluno(raAluno);
+		    }
+		});
+
 //		//BOTOES DA TELA DE CONSULTA DE GRUPOS
 //		btnBusca.addActionListener();
 //		btnBuscaSubArea.addActionListener();
 //		
 //		//BOTOES DA TELA DE CADASTRO DE ORIENTAÇÃO
+
 //		btnCadastrarOrientacao.addActionListener();
 //		
 //		//BOTOES DA TELA DE CONSULTA DE ORIENTAÇÕES
 //		btnBuscarOrientacao.addActionListener();
 	}
 }
+
