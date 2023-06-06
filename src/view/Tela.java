@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import controller.AlunosController;
 import controller.GruposController;
+import controller.OrientacaoController;
+
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -344,14 +346,15 @@ public class Tela extends JFrame {
 		    }
 		});
 
+
+//		//BOTOES DA TELA DE CADASTRO DE ORIENTAÇÃO
+		OrientacaoController orientacao = new OrientacaoController(tfCodGrupoOrientacao,  taOrientacao);
+		btnCadastrarOrientacao.addActionListener(orientacao);
+
 //		//BOTOES DA TELA DE CONSULTA DE GRUPOS
 //		btnBusca.addActionListener();
 //		btnBuscaSubArea.addActionListener();
-//		
-//		//BOTOES DA TELA DE CADASTRO DE ORIENTAÇÃO
-
-//		btnCadastrarOrientacao.addActionListener();
-//		
+		
 //		//BOTOES DA TELA DE CONSULTA DE ORIENTAÇÕES
 //		btnBuscarOrientacao.addActionListener();
 	}
