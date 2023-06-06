@@ -2,6 +2,8 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -31,12 +33,12 @@ public class OrientacaoController implements ActionListener{
             JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos", "Erro", JOptionPane.ERROR_MESSAGE);
         } else {
             Orientacao orient = new Orientacao(codGrupo, orientacao);
-
+            System.out.println(orient);
             pilha.push(orient);
             JOptionPane.showMessageDialog(null, "Orientação cadastrada com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 
             try {
-                System.out.println(pilha.top());
+               salvaremCSV(pilha);
             } catch (Exception e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
@@ -47,4 +49,20 @@ public class OrientacaoController implements ActionListener{
         }
         
     }
+	private void salvaremCSV(Pilha pilha) throws Exception {
+		String nomeArq = "orientações.csv";
+		 try {
+			 FileWriter writer = new FileWriter(nomeArq, true);
+	            while (!pilha.isEmpty()) {
+	                Orientacao linha = pilha.pop();
+	                writer.append (linha);
+	                writer.append("\n");
+	            }
+
+	            writer.flush();
+	            writer.close();
+	        } catch (IOException e) {
+	            System.out.println("Erro ao salvar os dados no arquivo CSV: " + e.getMessage());
+	        }
+	}
 }
