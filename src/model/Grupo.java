@@ -5,12 +5,14 @@ public class Grupo {
     private String tema;
     private String orientador;
     private String area;
+    private String subarea;
 
-    public Grupo(String codigo, String tema, String orientador, String area) {
+    public Grupo(String codigo, String tema, String orientador, String area, String subarea) {
         this.codigo = codigo;
         this.tema = tema;
         this.orientador = orientador;
         this.area = area;
+        this.subarea = subarea;
     }
 
     public String getCodigo() {
@@ -28,4 +30,8 @@ public class Grupo {
     public String getArea() {
         return area;
     }
+
+	public Object getSubarea() {
+		return subarea;
+	}
 }

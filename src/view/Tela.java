@@ -6,8 +6,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import controller.AlunosController;
+import controller.ConsultaController;
 import controller.GruposController;
 import controller.OrientacaoController;
+import model.Orientacao;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
@@ -16,6 +18,7 @@ import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +42,6 @@ public class Tela extends JFrame {
 	private JTable tbConsultaGrupo;
 	private JTextField tfCodGrupoOrientacao;
 	private JTextField tfCodGrupoBuscaOrientacao;
-	private JTable tbListaOrientacao;
 
 	/**
 	 * Launch the application.
@@ -61,6 +63,7 @@ public class Tela extends JFrame {
 	 * Create the frame.
 	 */
 	public Tela() {
+		setTitle("Sistema de TCC");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 547, 367);
 		contentPane = new JPanel();
@@ -139,8 +142,11 @@ public class Tela extends JFrame {
 		tabConsutaGrupo.add(lblSubarea);
 		
 		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Engenharia de Software", "Engenharia de Sistemas", "Segurança de Redes", "Administração de Redes", "Desenvolvimento Web\r\n"
+				+ "Desenvolvimento Mobile", "Análise de Dados" , "Criptografia", "Segurança de Aplicações Web"}));
 		comboBox.setBounds(276, 21, 111, 22);
 		tabConsutaGrupo.add(comboBox);
+		
 		
 		JButton btnBuscaSubArea = new JButton("Buscar p/ Subarea");
 		btnBuscaSubArea.setToolTipText("Buscar por Subarea");
@@ -276,22 +282,13 @@ public class Tela extends JFrame {
 		btnBuscarOrientacao.setBounds(216, 8, 89, 23);
 		tabConsultarOrientacao.add(btnBuscarOrientacao);
 		
-		tbListaOrientacao = new JTable();
-		tbListaOrientacao.setBounds(10, 79, 125, 177);
-		tabConsultarOrientacao.add(tbListaOrientacao);
-		
-		JLabel lblListaOrientacao = new JLabel("Lista de Orientações");
-		lblListaOrientacao.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblListaOrientacao.setBounds(10, 54, 125, 14);
-		tabConsultarOrientacao.add(lblListaOrientacao);
-		
 		JLabel lblDescrOrientacao = new JLabel("Descrição da Orientação");
 		lblDescrOrientacao.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblDescrOrientacao.setBounds(185, 54, 189, 14);
+		lblDescrOrientacao.setBounds(17, 54, 189, 14);
 		tabConsultarOrientacao.add(lblDescrOrientacao);
 		
 		JTextPane tpDescrOrientacao = new JTextPane();
-		tpDescrOrientacao.setBounds(185, 79, 300, 177);
+		tpDescrOrientacao.setBounds(20, 79, 465, 177);
 		tabConsultarOrientacao.add(tpDescrOrientacao);
 		
 		JSeparator separator = new JSeparator();
@@ -347,16 +344,48 @@ public class Tela extends JFrame {
 		});
 
 
-//		//BOTOES DA TELA DE CADASTRO DE ORIENTAÇÃO
+		//BOTOES DA TELA DE CADASTRO DE ORIENTAÇÃO
 		OrientacaoController orientacao = new OrientacaoController(tfCodGrupoOrientacao,  taOrientacao);
 		btnCadastrarOrientacao.addActionListener(orientacao);
 
-//		//BOTOES DA TELA DE CONSULTA DE GRUPOS
-//		btnBusca.addActionListener();
-//		btnBuscaSubArea.addActionListener();
+		//BOTOES DA TELA DE CONSULTA DE GRUPOS
+		ConsultaController consulta = new ConsultaController(tbConsultaGrupo);
+		btnBusca.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        String codigo = tfCodigo.getText();
+		        try {
+					consulta.buscarPorCodigo(codigo);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		    }
+		});
+		
+		btnBuscaSubArea.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        String subarea = comboBox.getSelectedItem().toString();
+		        try {
+					consulta.buscarPorSubarea(subarea);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		    }
+		});
 		
 //		//BOTOES DA TELA DE CONSULTA DE ORIENTAÇÕES
-//		btnBuscarOrientacao.addActionListener();
+		btnBuscarOrientacao.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        String codigoGrupo = tfCodGrupoBuscaOrientacao.getText();
+		        Orientacao orientacao = consulta.buscarUltimaOrientacao(codigoGrupo);
+		        if (orientacao != null) {
+		            tpDescrOrientacao.setText(orientacao.getOrientacao());
+		        } else {
+		            tpDescrOrientacao.setText("Nenhuma orientação encontrada");
+		        }
+		    }
+		});
 	}
 }
 
